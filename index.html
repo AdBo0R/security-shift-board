@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لوحة ورديات الأمن</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b141f; --surface:#131f2e; --surface2:#1a2939; --line:#233549;
+  --text:#e8eef5; --muted:#8fa2b8;
+  --morning:#f2b643; --afternoon:#e8734a; --night:#7fb3e8; --off:#5b6b7d;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--text);
+  font-family:'IBM Plex Sans Arabic',system-ui,-apple-system,sans-serif;
+  min-height:100vh; padding:12px 10px 24px;
+}
+.wrap{max-width:480px;margin:0 auto}
+.brand{display:flex;align-items:center;justify-content:space-between;gap:8px;
+  background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:8px 12px}
+.brand .title{text-align:center;flex:1;min-width:0}
+.brand h1{font-size:13.5px;font-weight:700;color:var(--text)}
+.brand .sub{font-size:9.5px;color:#5b6b7d;margin-top:1px;white-space:nowrap}
+.logo{display:flex;flex-direction:column;align-items:center;gap:2px}
+.shield{flex-direction:row;gap:6px}
+.lg-txt{font-size:8px;line-height:1.35;color:var(--muted);letter-spacing:.5px}
+.lg-txt b{color:var(--text);font-size:9px;letter-spacing:0}
+.dpw-mark{font-size:13px;font-weight:700;letter-spacing:.5px;color:#7fb3e8;font-family:Arial,sans-serif}
+.dpw-ar{font-size:8px;color:var(--muted)}
+@media (max-width:420px){.lg-txt{display:none}.brand .sub{display:none}}
+
+.datebar{
+  margin-top:10px; background:var(--surface); border:1px solid var(--line);
+  border-radius:12px; padding:8px; display:flex; align-items:center; gap:6px;
+}
+.navbtn{
+  flex:0 0 40px; height:44px; border:1px solid var(--line); border-radius:12px;
+  background:var(--surface2); color:var(--text); font-size:22px; cursor:pointer;
+  transition:background .15s;
+}
+.navbtn:active{background:#24384e}
+.datecenter{flex:1; text-align:center; cursor:pointer; position:relative}
+.datecenter .wd{font-size:11.5px;color:var(--muted)}
+.datecenter .dt{font-size:17px;font-weight:700;margin-top:1px}
+.datecenter input{position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer}
+.todaybtn{
+  display:block;margin:6px auto 0;background:none;border:none;color:var(--night);
+  font-family:inherit;font-size:12px;cursor:pointer;text-decoration:underline;
+  text-underline-offset:4px;
+}
+.todaybtn.hidden{visibility:hidden}
+
+.cards{margin-top:10px;display:flex;flex-direction:column;gap:7px}
+.card{
+  background:var(--surface); border:1px solid var(--line); border-radius:12px;
+  padding:9px 11px 8px; border-inline-start:4px solid var(--c);
+}
+.card .top{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.card .sup{font-size:14.5px;font-weight:700}
+.card .shift-id{font-size:10px;color:var(--muted);white-space:nowrap}
+.badge{
+  display:inline-flex;align-items:center;gap:5px;margin-top:3px;
+  font-size:12.5px;font-weight:600;color:var(--c);
+}
+.badge .dot{width:7px;height:7px;border-radius:50%;background:var(--c)}
+.badge .hrs{color:var(--text);font-weight:500;font-size:12px}
+.daynum{display:inline;font-size:11.5px;color:var(--muted);margin-inline-start:8px}
+.nextline{font-size:11.5px;color:var(--muted);margin-top:2px}
+.nextline b{color:var(--text);font-weight:600}
+
+.tape{display:flex;gap:2px;margin-top:7px}
+.tape .cell{
+  flex:1;height:19px;border-radius:4px;background:var(--cellc);
+  display:flex;align-items:center;justify-content:center;
+  font-size:8.5px;color:#0b141f;font-weight:700;opacity:.9;
+}
+.tape .cell.off{color:#c7d2de;opacity:.55}
+.tape .cell.today{outline:2px solid #fff;outline-offset:1px;opacity:1}
+.tapedates{display:flex;gap:2px;margin-top:2px}
+.tapedates span{flex:1;text-align:center;font-size:9px;color:#5b6b7d}
+
+.legend{
+  display:flex;justify-content:center;gap:12px;margin-top:12px;flex-wrap:wrap;
+  font-size:10.5px;color:var(--muted);
+}
+.legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-inline-end:5px;vertical-align:middle}
+@media (prefers-reduced-motion:no-preference){
+  .card{animation:up .25s ease both}
+  @keyframes up{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="brand">
+    <div class="logo shield" title="Security">
+      <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="#f2b643" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2.5 4.5 5.5v6c0 4.8 3.2 8.4 7.5 10 4.3-1.6 7.5-5.2 7.5-10v-6L12 2.5z"/>
+        <path d="M9 12l2.2 2.2L15.4 10"/>
+      </svg>
+      <span class="lg-txt">SECURITY<br><b>الأمن والسلامة</b></span>
+    </div>
+    <div class="title">
+      <h1>لوحة ورديات الأمن</h1>
+      <div class="sub">صباح 6–14 · عصر 14–22 · ليل 22–06</div>
+    </div>
+    <div class="logo dpw" title="DP World">
+      <span class="dpw-mark">DP WORLD</span>
+      <span class="dpw-ar">موانئ دبي العالمية</span>
+    </div>
+  </header>
+
+  <div class="datebar">
+    <button class="navbtn" id="prev" aria-label="اليوم السابق">‹</button>
+    <div class="datecenter" title="اضغط لاختيار تاريخ">
+      <div class="wd" id="wd"></div>
+      <div class="dt" id="dt"></div>
+      <input type="date" id="picker" aria-label="اختيار تاريخ">
+    </div>
+    <button class="navbtn" id="next" aria-label="اليوم التالي">›</button>
+  </div>
+  <button class="todaybtn" id="today">الرجوع لليوم الحالي</button>
+
+  <div class="cards" id="cards"></div>
+
+  <div class="legend">
+    <span><i style="background:var(--morning)"></i>صباح</span>
+    <span><i style="background:var(--afternoon)"></i>عصر</span>
+    <span><i style="background:var(--night)"></i>ليل</span>
+    <span><i style="background:var(--off)"></i>إجازة</span>
+  </div>
+</div>
+
+<script>
+// ---------- data ----------
+const SHIFTS = [
+  {id:'A', sup:'عبدالله الشيباني',  anchor:'2026-07-18'},
+  {id:'B', sup:'أحمد عبيد',        anchor:'2026-07-12'},
+  {id:'C', sup:'محمود أبو طالب',   anchor:'2026-07-06'},
+  {id:'D', sup:'حاتم الحربي',      anchor:'2026-06-30'},
+];
+// 24-day cycle: 0-5 morning, 6-7 off, 8-13 night, 14-15 off, 16-21 afternoon, 22-23 off
+const TYPES = {
+  morning:  {label:'صباح',  hrs:'6 – 14',  css:'var(--morning)',  short:'ص', order:0},
+  afternoon:{label:'عصر',   hrs:'14 – 22', css:'var(--afternoon)',short:'ع', order:1},
+  night:    {label:'ليل',   hrs:'22 – 06', css:'var(--night)',    short:'ل', order:2},
+  off:      {label:'إجازة', hrs:'',        css:'var(--off)',      short:'—', order:3},
+};
+const WD = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+const MO = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+
+const D = s => { const [y,m,d] = s.split('-').map(Number); return new Date(y, m-1, d, 12); };
+const addDays = (d,n) => new Date(d.getFullYear(), d.getMonth(), d.getDate()+n, 12);
+const diffDays = (a,b) => Math.round((a-b)/86400000);
+const mod = (n,m) => ((n%m)+m)%m;
+
+function stage(dateObj, anchorStr){
+  const p = mod(diffDays(dateObj, D(anchorStr)), 24);
+  if (p <= 5)  return {type:'morning',   day:p+1,  of:6};
+  if (p <= 7)  return {type:'off',       day:p-5,  of:2};
+  if (p <= 13) return {type:'night',     day:p-7,  of:6};
+  if (p <= 15) return {type:'off',       day:p-13, of:2};
+  if (p <= 21) return {type:'afternoon', day:p-15, of:6};
+  return {type:'off', day:p-21, of:2};
+}
+function nextChange(dateObj, anchorStr){
+  const cur = stage(dateObj, anchorStr).type;
+  for (let i=1;i<=8;i++){
+    const d2 = addDays(dateObj,i), s2 = stage(d2, anchorStr);
+    if (s2.type !== cur) return {stage:s2, date:d2, inDays:i};
+  }
+}
+const fmtShort = d => `${d.getDate()} ${MO[d.getMonth()]}`;
+
+// ---------- state ----------
+const startOfToday = () => { const n=new Date(); return new Date(n.getFullYear(),n.getMonth(),n.getDate(),12); };
+let current = startOfToday();
+
+function render(){
+  document.getElementById('wd').textContent = WD[current.getDay()];
+  document.getElementById('dt').textContent =
+    `${current.getDate()} ${MO[current.getMonth()]} ${current.getFullYear()}`;
+  const p = document.getElementById('picker');
+  p.value = `${current.getFullYear()}-${String(current.getMonth()+1).padStart(2,'0')}-${String(current.getDate()).padStart(2,'0')}`;
+  document.getElementById('today').classList.toggle('hidden', diffDays(current, startOfToday())===0);
+
+  const items = SHIFTS.map(s => ({s, st:stage(current, s.anchor)}));
+
+  document.getElementById('cards').innerHTML = items.map(({s, st}, idx) => {
+    const t = TYPES[st.type];
+    const nc = nextChange(current, s.anchor);
+    const nt = TYPES[nc.stage.type];
+    const nextTxt = nc.stage.type === 'off'
+      ? `بعدها: <b>إجازة</b> تبدأ ${WD[nc.date.getDay()]} ${fmtShort(nc.date)}`
+      : `بعدها: <b>${nt.label} ${nt.hrs}</b> يبدأ ${WD[nc.date.getDay()]} ${fmtShort(nc.date)}`;
+    const dayTxt = st.type === 'off'
+      ? `اليوم ${st.day} من ${st.of} إجازة`
+      : `اليوم ${st.day} من ${st.of} أيام عمل`;
+
+    // 14-day tape starting 3 days before selected date
+    let tape='', tdates='';
+    for (let i=-3;i<11;i++){
+      const d2 = addDays(current,i), s2 = stage(d2, s.anchor), t2 = TYPES[s2.type];
+      tape += `<div class="cell ${s2.type==='off'?'off':''} ${i===0?'today':''}"
+        style="--cellc:${t2.css}" title="${WD[d2.getDay()]} ${fmtShort(d2)}: ${t2.label}">${t2.short}</div>`;
+      tdates += `<span>${d2.getDate()}</span>`;
+    }
+    return `<div class="card" style="--c:${t.css};animation-delay:${idx*40}ms">
+      <div class="top">
+        <div class="sup">${s.sup}</div>
+        <div class="shift-id">SHIFT ${s.id}</div>
+      </div>
+      <div class="badge"><span class="dot"></span>${t.label}
+        ${t.hrs ? `<span class="hrs">${t.hrs}</span>` : ''}</div>
+      <div class="daynum">${dayTxt}</div>
+      <div class="nextline">${nextTxt}</div>
+      <div class="tape">${tape}</div>
+      <div class="tapedates">${tdates}</div>
+    </div>`;
+  }).join('');
+}
+
+document.getElementById('prev').onclick = () => { current = addDays(current,-1); render(); };
+document.getElementById('next').onclick = () => { current = addDays(current, 1); render(); };
+document.getElementById('today').onclick = () => { current = startOfToday(); render(); };
+document.getElementById('picker').onchange = e => {
+  if (e.target.value){ current = D(e.target.value); render(); }
+};
+render();
+</script>
+</body>
+</html>
