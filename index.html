@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#08131f">
+<meta name="author" content="خالد طالبي">
 <title>لوحة ورديات الأمن – ميناء جدة</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -46,6 +47,7 @@ body{
 }
 button{font-family:inherit;color:inherit;-webkit-user-select:none;user-select:none}
 :focus-visible{outline:2px solid var(--brand);outline-offset:2px;border-radius:10px}
+[hidden]{display:none!important}
 .wrap{max-width:520px;margin:0 auto}
 .glass{background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);
   -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
@@ -59,7 +61,8 @@ button{font-family:inherit;color:inherit;-webkit-user-select:none;user-select:no
 :root[data-theme="dark"] .logo .lg-light{display:none}
 :root[data-theme="dark"] .logo .lg-dark{display:block}
 .brand .title{flex:1;min-width:0;border-inline-start:1px solid var(--line);padding-inline-start:12px}
-.brand h1{font-size:16.5px;font-weight:700;line-height:1.3}
+.brand h1{font-size:15.5px;font-weight:700;line-height:1.3;white-space:nowrap}
+.brand{gap:8px}
 .brand .sub{font-size:11.5px;color:var(--muted)}
 .clock{font-size:12px;color:var(--muted);margin-top:1px;direction:ltr;text-align:right}
 .iconbtn{flex:0 0 40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:1px solid var(--line);background:var(--surface)}
@@ -107,26 +110,29 @@ button{font-family:inherit;color:inherit;-webkit-user-select:none;user-select:no
 .datebar{margin-top:14px;display:flex;align-items:stretch;gap:8px}
 .navbtn{flex:0 0 46px;border-radius:14px;font-size:24px;line-height:1;cursor:pointer;transition:transform .15s}
 .navbtn:active{transform:scale(.92)}
+.navbtn{display:flex;align-items:center;justify-content:center}
+.navbtn svg{width:22px;height:22px;fill:none;stroke:var(--text);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 .datecenter{flex:1;text-align:center;position:relative;border-radius:14px;padding:6px;min-height:52px;display:flex;flex-direction:column;justify-content:center}
 .datecenter .dt{font-size:16px;font-weight:700}
 .datecenter .hj{font-size:11.5px;color:var(--muted)}
 .datecenter input{position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer}
 .subbar{display:flex;align-items:center;justify-content:space-between;margin-top:10px;gap:8px}
 .tabs{position:relative;display:inline-flex;border-radius:12px;padding:3px}
-.tabs .ind{position:absolute;top:3px;bottom:3px;width:calc(50% - 3px);right:3px;border-radius:9px;background:var(--brand);transition:transform .3s cubic-bezier(.2,.8,.2,1)}
+.tabs .ind{position:absolute;top:3px;bottom:3px;width:calc((100% - 6px)/3);right:3px;border-radius:9px;background:var(--brand);transition:transform .3s cubic-bezier(.2,.8,.2,1)}
 .tabs[data-v="week"] .ind{transform:translateX(-100%)}
-.tabs button{position:relative;border:0;background:none;font-size:13px;font-weight:600;padding:7px 18px;cursor:pointer;color:var(--muted);transition:color .3s;min-width:78px}
+.tabs[data-v="month"] .ind{transform:translateX(-200%)}
+.tabs button{position:relative;border:0;background:none;font-size:13px;font-weight:600;padding:7px 10px;cursor:pointer;color:var(--muted);transition:color .3s;min-width:64px}
 .tabs button[aria-selected="true"]{color:var(--bg)}
 .todaybtn{border:0;background:none;color:var(--brand);font-size:13px;font-weight:700;cursor:pointer;padding:6px 4px;transition:opacity .2s}
 .todaybtn.hidden{opacity:0;pointer-events:none}
 
 /* cards */
 .cards{margin-top:12px;display:flex;flex-direction:column;gap:10px}
-.anim-l .card,.anim-r .card,.anim-l.week,.anim-r.week{animation:slideL .35s cubic-bezier(.2,.8,.2,1) both}
-.anim-r .card,.anim-r.week{animation-name:slideR}
+.go-next .card,.go-prev .card,.go-next.week,.go-prev.week,.go-next.month,.go-prev.month{animation:fromLeft .38s cubic-bezier(.2,.8,.2,1) both}
+.go-prev .card,.go-prev.week,.go-prev.month{animation-name:fromRight}
 .cards .card:nth-child(2){animation-delay:.03s}.cards .card:nth-child(3){animation-delay:.06s}.cards .card:nth-child(4){animation-delay:.09s}
-@keyframes slideL{from{opacity:0;transform:translateX(-18px)}}
-@keyframes slideR{from{opacity:0;transform:translateX(18px)}}
+@keyframes fromRight{from{opacity:0;transform:translateX(40px)}}
+@keyframes fromLeft{from{opacity:0;transform:translateX(-40px)}}
 .card{position:relative;border-radius:18px;padding:12px 14px 11px;overflow:hidden}
 .card::before{content:"";position:absolute;inset-inline-start:0;top:12px;bottom:12px;width:4px;border-radius:0 4px 4px 0;background:var(--c)}
 .card.mine-card{box-shadow:0 0 0 2px var(--brand),var(--shadow)}
@@ -137,27 +143,53 @@ button{font-family:inherit;color:inherit;-webkit-user-select:none;user-select:no
 .letter b{font-size:20px;font-weight:700}
 .letter small{font-size:9px;font-weight:600;margin-top:2px;opacity:.9}
 .card .info{flex:1;min-width:0}
-.card .sup{font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card .sup{font-size:15px;font-weight:700}
 .card .sup .me{font-size:10.5px;font-weight:700;color:var(--brand);border:1px solid currentColor;border-radius:6px;padding:0 6px;margin-inline-start:6px;vertical-align:2px}
 .card .st{display:flex;align-items:center;gap:8px;margin-top:2px;font-size:13px}
 .card .st .ty{font-weight:700;color:var(--c)}
 .card .st .hrs{color:var(--text);font-weight:600}
 .card .st .dn{color:var(--muted);font-size:12px}
+.card .when{font-size:11.5px;color:var(--muted);margin-inline-start:auto;white-space:nowrap;align-self:flex-start;padding-top:3px}
 .prog{display:flex;gap:3px;margin-top:6px}
 .prog i{flex:1;height:4px;border-radius:3px;background:var(--line)}
 .prog i.f{background:var(--c)}
 .nextline{font-size:12px;color:var(--muted);margin-top:8px}
 .nextline b{color:var(--text);font-weight:600}
-.tape{direction:ltr;display:grid;grid-template-columns:repeat(13,1fr);gap:3px;margin-top:10px}
+.tape{display:grid;grid-template-columns:repeat(13,1fr);gap:3px;margin-top:10px}
 .cell{position:relative;height:30px;border-radius:7px;border:0;background:var(--cc);color:var(--on);font-size:11px;font-weight:700;cursor:pointer;
   display:flex;align-items:center;justify-content:center;transition:transform .15s}
 .cell:active{transform:scale(.88)}
 .cell.off{background:var(--surface2);color:var(--faint);box-shadow:inset 0 0 0 1px var(--line)}
 .cell.sel{transform:scale(1.12);box-shadow:0 0 0 2px var(--surface-solid),0 0 0 4px var(--text);z-index:1}
-.dates{direction:ltr;display:grid;grid-template-columns:repeat(13,1fr);gap:3px;margin-top:5px}
-.dates span{text-align:center;font-size:10px;color:var(--faint)}
-.dates span.sel{color:var(--text);font-weight:700}
+.dates{display:grid;grid-template-columns:repeat(13,1fr);gap:3px;margin-top:5px}
+.dates span{text-align:center;font-size:10.5px;color:var(--faint);line-height:1.2;border-radius:7px;padding:2px 0}
+.dates span small{display:block;font-size:8.5px;white-space:nowrap;overflow:hidden;font-weight:500;letter-spacing:-.3px}
+.dates span.wk small{color:var(--muted)}
+.dates span.sel{color:var(--bg);background:var(--text);font-weight:700}
+.dates span.sel small{color:var(--bg)}
 .dates span.td{color:var(--brand);font-weight:700}
+
+/* month */
+.month{margin-top:12px;border-radius:18px;padding:12px}
+.m-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
+.m-head .mt{font-size:15px;font-weight:700}
+.m-head .mt small{display:block;font-size:11.5px;color:var(--muted);font-weight:500}
+.m-chips{display:flex;gap:5px}
+.m-chips button{width:32px;height:30px;border-radius:9px;border:1px solid var(--line);background:var(--surface2);font-weight:700;font-size:13px;cursor:pointer}
+.m-chips button[aria-pressed="true"]{background:var(--brand);color:var(--bg);border-color:transparent}
+.m-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.m-grid .wh{text-align:center;font-size:10.5px;color:var(--muted);font-weight:600;padding-bottom:2px}
+.m-day{position:relative;aspect-ratio:1/1.05;border:0;border-radius:11px;background:var(--cc);color:var(--on);cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.1;transition:transform .15s}
+.m-day:active{transform:scale(.9)}
+.m-day b{font-size:15px}
+.m-day small{font-size:10px;font-weight:600;opacity:.9}
+.m-day.off{background:var(--surface2);color:var(--faint);box-shadow:inset 0 0 0 1px var(--line)}
+.m-day.out{opacity:.3}
+.m-day.today{box-shadow:0 0 0 2px var(--brand)}
+.m-day.sel{box-shadow:0 0 0 2px var(--surface-solid),0 0 0 4px var(--text);z-index:1}
+.m-sum{display:flex;justify-content:space-around;margin-top:12px;padding-top:10px;border-top:1px solid var(--line);font-size:12px;color:var(--muted);text-align:center}
+.m-sum b{display:block;font-size:17px;color:var(--text)}
 
 /* week */
 .week{margin-top:12px;border-radius:18px;overflow-x:auto}
@@ -176,6 +208,34 @@ button{font-family:inherit;color:inherit;-webkit-user-select:none;user-select:no
 .legend{display:flex;justify-content:center;gap:14px;margin-top:18px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
 .legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-inline-end:5px;vertical-align:-1px}
 .foot{text-align:center;font-size:11px;color:var(--faint);margin-top:8px}
+.credit{text-align:center;margin-top:18px;padding-top:14px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted)}
+.credit b{color:var(--text);font-weight:700}
+.credit span{display:block;font-size:10.5px;color:var(--faint);margin-top:2px}
+
+/* ===== Pro (executive) style ===== */
+:root[data-style="pro"] body{background:var(--bg)}
+:root[data-style="pro"] .glass{background:var(--surface-solid);-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:none}
+:root[data-style="pro"] .brand{border-bottom:2px solid var(--brand);margin-bottom:14px}
+:root[data-style="pro"] .hero{background:var(--surface-solid);color:var(--text);border:1px solid var(--line);border-top:5px solid var(--c);border-radius:10px}
+:root[data-style="pro"] .hero::before,:root[data-style="pro"] .hero .wave{display:none}
+:root[data-style="pro"] .hero h2{color:var(--c)}
+:root[data-style="pro"] .live{background:color-mix(in srgb,var(--c) 14%,transparent);color:var(--c);border-radius:4px}
+:root[data-style="pro"] .ring{color:var(--c)}
+:root[data-style="pro"] .ring .trk{stroke:var(--line)}
+:root[data-style="pro"] .ring .ctr b{color:var(--text)}
+:root[data-style="pro"] .handover{border-top-color:var(--line);color:var(--muted)}
+:root[data-style="pro"] .handover b{color:var(--text)}
+:root[data-style="pro"] .mine,:root[data-style="pro"] .card,:root[data-style="pro"] .week,:root[data-style="pro"] .month{border-radius:10px}
+:root[data-style="pro"] .navbtn,:root[data-style="pro"] .datecenter,:root[data-style="pro"] .tabs,:root[data-style="pro"] .iconbtn{border-radius:8px}
+:root[data-style="pro"] .tabs .ind{border-radius:6px}
+:root[data-style="pro"] .chip,:root[data-style="pro"] .m-chips button{border-radius:6px}
+:root[data-style="pro"] .card::before{top:0;bottom:0;width:4px;border-radius:0}
+:root[data-style="pro"] .letter{border-radius:6px;background:var(--c);color:var(--on)}
+:root[data-style="pro"] .card.is-off .letter{background:var(--surface2);color:var(--faint)}
+:root[data-style="pro"] .cell,:root[data-style="pro"] .pill{border-radius:3px}
+:root[data-style="pro"] .m-day{border-radius:5px}
+:root[data-style="pro"] .prog i{border-radius:0;height:3px}
+:root[data-style="pro"] .dates span{border-radius:3px}
 
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
@@ -191,6 +251,9 @@ button{font-family:inherit;color:inherit;-webkit-user-select:none;user-select:no
     </div>
     <button class="iconbtn" id="themeBtn" aria-label="تبديل الوضع">
       <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    </button>
+    <button class="iconbtn" id="styleBtn" aria-label="تغيير الستايل" title="تغيير الستايل">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="3.5"/><rect x="3" y="14" width="7" height="7" rx="3.5"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
     </button>
   </header>
 
@@ -217,12 +280,12 @@ button{font-family:inherit;color:inherit;-webkit-user-select:none;user-select:no
   </section>
 
   <div class="datebar">
-    <button class="navbtn glass" id="prev" aria-label="السابق">‹</button>
+    <button class="navbtn glass" id="prev" aria-label="اليوم السابق"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>
     <div class="datecenter glass">
       <div class="dt" id="dt"></div><div class="hj" id="hj"></div>
       <input type="date" id="picker" aria-label="اختيار تاريخ">
     </div>
-    <button class="navbtn glass" id="next" aria-label="التالي">›</button>
+    <button class="navbtn glass" id="next" aria-label="اليوم التالي"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
   </div>
 
   <div class="subbar">
@@ -230,12 +293,14 @@ button{font-family:inherit;color:inherit;-webkit-user-select:none;user-select:no
       <span class="ind"></span>
       <button role="tab" id="tabDay" aria-selected="true">اليوم</button>
       <button role="tab" id="tabWeek" aria-selected="false">الأسبوع</button>
+      <button role="tab" id="tabMonth" aria-selected="false">الشهر</button>
     </div>
     <button class="todaybtn" id="today">الرجوع لليوم ↺</button>
   </div>
 
   <div class="cards" id="cards"></div>
   <div class="week glass" id="week" hidden></div>
+  <div class="month glass" id="month" hidden></div>
 
   <div class="legend">
     <span><i style="background:var(--morning)"></i>صباح 6–14</span>
@@ -243,7 +308,8 @@ button{font-family:inherit;color:inherit;-webkit-user-select:none;user-select:no
     <span><i style="background:var(--night)"></i>ليل 22–6</span>
     <span><i style="background:var(--off)"></i>إجازة</span>
   </div>
-  <div class="foot">اضغط على أي يوم في الشريط للانتقال له · اسحب يمين ويسار للتنقل</div>
+  <div class="foot">اضغط على أي يوم للانتقال له · اسحب الشاشة للتنقل بين الأيام</div>
+  <div class="credit">تصميم وتطوير <b>خالد طالبي</b><span>© 2026 جميع الحقوق محفوظة</span></div>
 </div>
 
 <script>
@@ -260,6 +326,7 @@ const TYPES = {
   off:      {label:'إجازة', hrs:'',        css:'var(--off)',      short:'–'},
 };
 const WD = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+const WS = ['أحد','إثنين','ثلاثاء','أربعاء','خميس','جمعة','سبت'];
 const MO = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
 
 const D = s => { const [y,m,d] = s.split('-').map(Number); return new Date(y,m-1,d,12); };
@@ -355,7 +422,7 @@ function renderMine(){
 }
 $('chips').addEventListener('click', e=>{
   const b=e.target.closest('.chip'); if(!b) return;
-  mine = mine===b.dataset.id ? null : b.dataset.id; store.set('myShift', mine);
+  mine = mine===b.dataset.id ? null : b.dataset.id; store.set('myShift', mine); if(mine) monthShift=mine;
   renderChips(); renderMine(); renderView();
 });
 
@@ -372,7 +439,7 @@ function renderDay(){
     for (let i=-6;i<=6;i++){
       const d2=addDays(current,i), s2=stage(d2,s.anchor), t2=TYPES[s2.type];
       tape += `<button class="cell ${s2.type==='off'?'off':''} ${i===0?'sel':''}" style="--cc:${t2.css}" data-go="${i}" aria-label="${WD[d2.getDay()]} ${fmtShort(d2)}: ${t2.label}">${t2.short}</button>`;
-      dates += `<span class="${i===0?'sel':''} ${i!==0&&diffDays(d2,td)===0?'td':''}">${d2.getDate()}</span>`;
+      dates += `<span class="${i===0?'sel':''} ${i!==0&&diffDays(d2,td)===0?'td':''} ${d2.getDay()>=5?'wk':''}"><small>${WS[d2.getDay()]}</small>${d2.getDate()}</span>`;
     }
     return `<article class="card glass ${st.type==='off'?'is-off':''} ${s.id===mine?'mine-card':''}" style="--c:${t.css}">
       <div class="top">
@@ -381,6 +448,7 @@ function renderDay(){
           <div class="sup">${s.sup}${s.id===mine?'<span class="me">ورديتي</span>':''}</div>
           <div class="st"><span class="ty">${t.label}</span>${t.hrs?`<span class="hrs">${t.hrs}</span>`:''}<span class="dn">يوم ${st.day} من ${st.of}</span></div>
         </div>
+        <div class="when">${WD[current.getDay()]}<br>${fmtShort(current)}</div>
       </div>
       <div class="prog">${prog}</div>
       <div class="nextline">${next}</div>
@@ -401,42 +469,74 @@ function renderWeek(){
 }
 $('week').addEventListener('click', e=>{ const c=e.target.closest('th[data-go]'); if(c && +c.dataset.go){ view='day'; step(+c.dataset.go); } });
 
+/* ---------- month ---------- */
+let monthShift = mine || 'A';
+function renderMonth(){
+  const s = SHIFTS.find(x=>x.id===monthShift), y=current.getFullYear(), m=current.getMonth();
+  const first=new Date(y,m,1,12), last=new Date(y,m+1,0,12), start=addDays(first,-first.getDay());
+  const weeks=Math.ceil((first.getDay()+last.getDate())/7), td=today();
+  const cnt={morning:0,afternoon:0,night:0,off:0};
+  let cells=WS.map(w=>`<div class="wh">${w}</div>`).join('');
+  for(let i=0;i<weeks*7;i++){
+    const d=addDays(start,i), st=stage(d,s.anchor), t=TYPES[st.type], inM=d.getMonth()===m;
+    if(inM) cnt[st.type]++;
+    cells+=`<button class="m-day ${st.type==='off'?'off':''} ${inM?'':'out'} ${diffDays(d,td)===0?'today':''} ${diffDays(d,current)===0?'sel':''}" style="--cc:${t.css}" data-date="${iso(d)}" aria-label="${WD[d.getDay()]} ${fmtShort(d)}: ${t.label}"><b>${d.getDate()}</b><small>${st.type==='off'?'إجازة':t.label}</small></button>`;
+  }
+  $('month').innerHTML=`<div class="m-head"><div class="mt">${MO[m]} ${y}<small>الوردية ${s.id} · ${s.sup}</small></div>
+    <div class="m-chips">${SHIFTS.map(x=>`<button data-ms="${x.id}" aria-pressed="${x.id===monthShift}">${x.id}</button>`).join('')}</div></div>
+    <div class="m-grid">${cells}</div>
+    <div class="m-sum"><div><b style="color:var(--morning)">${cnt.morning}</b>صباح</div><div><b style="color:var(--afternoon)">${cnt.afternoon}</b>عصر</div><div><b style="color:var(--night)">${cnt.night}</b>ليل</div><div><b>${cnt.off}</b>إجازة</div></div>`;
+}
+$('month').addEventListener('click',e=>{
+  const c=e.target.closest('[data-ms]'); if(c){ monthShift=c.dataset.ms; renderMonth(); return; }
+  const d=e.target.closest('[data-date]'); if(d){ current=D(d.dataset.date); view='day'; render(); window.scrollTo({top:$('tabs').offsetTop-20,behavior:'smooth'}); }
+});
+
 /* ---------- main ---------- */
 function renderView(dir){
-  const box = view==='day'?$('cards'):$('week');
-  view==='day'?renderDay():renderWeek();
-  box.classList.remove('anim-l','anim-r'); void box.offsetWidth;
-  if (dir) box.classList.add(dir>0?'anim-l':'anim-r');
+  const box = $(view==='day'?'cards':view);
+  view==='day'?renderDay():view==='week'?renderWeek():renderMonth();
+  box.classList.remove('go-next','go-prev'); void box.offsetWidth;
+  if (dir) box.classList.add(dir>0?'go-next':'go-prev');
 }
 function render(dir){
   $('dt').textContent = `${WD[current.getDay()]} ${current.getDate()} ${MO[current.getMonth()]} ${current.getFullYear()}`;
   $('hj').textContent = hijri ? hijri.format(current) : '';
   $('picker').value = iso(current);
   $('today').classList.toggle('hidden', diffDays(current,today())===0);
-  $('cards').hidden = view!=='day'; $('week').hidden = view!=='week';
+  $('cards').hidden = view!=='day'; $('week').hidden = view!=='week'; $('month').hidden = view!=='month';
   $('tabs').dataset.v = view;
-  $('tabDay').setAttribute('aria-selected', view==='day'); $('tabWeek').setAttribute('aria-selected', view==='week');
+  $('tabDay').setAttribute('aria-selected', view==='day'); $('tabWeek').setAttribute('aria-selected', view==='week'); $('tabMonth').setAttribute('aria-selected', view==='month');
   renderView(dir);
 }
 function step(n){ current=addDays(current,n); render(n); if (navigator.vibrate) try{navigator.vibrate(8)}catch(e){} }
-$('prev').onclick=()=>step(view==='week'?-7:-1);
-$('next').onclick=()=>step(view==='week'?7:1);
+function move(n){
+  if(view==='month'){ const d=current.getDate(), y=current.getFullYear(), m=current.getMonth()+n;
+    current=new Date(y,m,Math.min(d,new Date(y,m+1,0).getDate()),12); render(n); }
+  else step(n*(view==='week'?7:1));
+}
+$('prev').onclick=()=>move(-1);
+$('next').onclick=()=>move(1);
 $('today').onclick=()=>{ const d=diffDays(today(),current); current=today(); render(d); };
 $('picker').onchange=e=>{ if(e.target.value){ const n=D(e.target.value), d=diffDays(n,current); current=n; render(d); } };
 $('tabDay').onclick=()=>{ view='day'; render(); };
 $('tabWeek').onclick=()=>{ view='week'; render(); };
+$('tabMonth').onclick=()=>{ view='month'; render(); };
 
 let sx=null, sy=null;
 document.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY},{passive:true});
 document.addEventListener('touchend',e=>{
   if(sx===null)return;
   const dx=e.changedTouches[0].clientX-sx, dy=e.changedTouches[0].clientY-sy;
-  if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.5&&!e.target.closest('.week')) step((dx>0?1:-1)*(view==='week'?7:1));
+  if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.5&&!e.target.closest('.week table')) move(dx>0?1:-1);
   sx=null;
 },{passive:true});
 
 function applyTheme(t){ if(t) document.documentElement.dataset.theme=t; else delete document.documentElement.dataset.theme; }
 applyTheme(store.get('theme'));
+function applyStyle(v){ if(v==='pro') document.documentElement.dataset.style='pro'; else delete document.documentElement.dataset.style; }
+applyStyle(store.get('style'));
+$('styleBtn').onclick=()=>{ const v=document.documentElement.dataset.style==='pro'?null:'pro'; applyStyle(v); store.set('style',v); };
 $('themeBtn').onclick=()=>{ const dark=getComputedStyle(document.documentElement).colorScheme.includes('dark'); const t=dark?'light':'dark'; applyTheme(t); store.set('theme',t); };
 
 renderChips(); render(); renderHero(); renderMine();
